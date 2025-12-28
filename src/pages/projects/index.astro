@@ -1,0 +1,43 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+---
+
+<Layout>
+    <ProjectCard
+        project={{
+            title: "Fetchy",
+            details:
+                "Minimal, curl-like command-line utility written in C for fetching web content over HTTP/HTTPS.",
+            tags: ["C", "POSIX", "UNIX", "OPENSSL", "SOCKETS"],
+            url: "https://github.com/Farhan291/fetchy",
+        }}
+    />
+    <ProjectCard
+        project={{
+            title: "Ember",
+            details:
+                "HTTP server written in C from scratch, using only standard POSIX APIs.",
+            tags: ["C", "POSIX", "HTTP"],
+            url: "https://github.com/Farhan291/Ember",
+        }}
+    />
+    <ProjectCard
+        project={{
+            title: "create-light-stack",
+            details:
+                "A minimal, opinionated CLI to scaffold a full-stack monorepo without the headache.",
+            tags: [
+                "TypeScript",
+                "Next.js",
+                "Hono",
+                "Drizzle",
+                "Express",
+                "Mongodb",
+                "Mongoose",
+                "FumaDocs",
+            ],
+            url: "https://github.com/Farhan291/create-light-stack",
+        }}
+    />
+</Layout>
