@@ -1,0 +1,38 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+const posts = await getCollection("blog");
+---
+
+<Layout title="Blog | farhan">
+    <div class="flex flex-col space-y-10">
+        {
+            posts.map((post) => (
+                <a
+                    href={`/blog/${post.id}`}
+                    class=" flex bg-accent items-center p-3 border border-border"
+                >
+                    <div
+                        class="h-20 w-32 shrink-0 overflow-hidden rounded-md bg-muted
+                               flex items-center justify-center"
+                    >
+                        <img
+                            src={post.data.cover}
+                            alt={post.data.title}
+                            class="h-full w-full object-cover"
+                            loading="lazy"
+                        />
+                    </div>
+                    <div class="mx-3 space-y-2">
+                        <p class="font-bold text-lg">{post.data.title}</p>
+                        <p class="text-xs">
+                            {post.data.pubDate} | {post.data.time} |{" "}
+                            {post.data.word} words{" "}
+                        </p>
+                        <p class="text-sm">{post.data.description}</p>
+                    </div>
+                </a>
+            ))
+        }
+    </div>
+</Layout>

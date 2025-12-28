@@ -1,0 +1,46 @@
+---
+//import { Separator } from '@/components/ui/separator'
+//import { SOCIAL_LINKS } from '@/consts'
+//import Link from './Link.astro'
+//import SocialIcons from './SocialIcons.astro'
+import { Button } from "./ui/button";
+import { Github } from "lucide-react";
+import { Linkedin } from "lucide-react";
+import { Mail } from "lucide-react";
+import { Twitter } from "lucide-react";
+---
+
+<footer
+    class="mx-auto mb-8 flex w-full max-w-4xl flex-col items-center justify-center gap-y-2 px-4 sm:mb-4 sm:flex-row sm:justify-between"
+>
+    <div class="flex flex-wrap items-center justify-center gap-x-2 text-center">
+        <span class="text-muted-foreground text-sm">
+            farhan &copy; {new Date().getFullYear()} All rights reserved.
+        </span>
+    </div>
+    <div>
+        <Button variant="outline" size="icon">
+            <a href="https://github.com/Farhan291" target="_blank">
+                <Github />
+            </a>
+        </Button>
+        <Button variant="outline" size="icon">
+            <a href="https://x.com/mkdir_autisim" target="_blank">
+                <Twitter />
+            </a>
+        </Button>
+        <Button variant="outline" size="icon">
+            <a
+                href="https://www.linkedin.com/in/mohammed-farhann/"
+                target="_blank"
+            >
+                <Linkedin />
+            </a>
+        </Button>
+        <Button variant="outline" size="icon">
+            <a href="mailto:hello@ifarhan.tech" target="_blank">
+                <Mail />
+            </a>
+        </Button>
+    </div>
+</footer>

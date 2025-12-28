@@ -1,0 +1,46 @@
+---
+import "../styles/global.css";
+const { pathname } = Astro.url;
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+const isHome = pathname === "/";
+const { title = "Home | farhan" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script is:inline>
+            const theme = localStorage.getItem("theme");
+            if (
+                theme === "dark" ||
+                (!theme &&
+                    window.matchMedia("(prefers-color-scheme: dark)").matches)
+            ) {
+                document.documentElement.classList.add("dark");
+            }
+        </script>
+        <title>{title}</title>
+    </head>
+    <body
+        class="flex flex-col items-center min-h-screen bg-background text-foreground font-sans selection:bg-blue-400 selection:text-primary-foreground"
+    >
+        <div class="flex flex-col w-full max-w-5xl px-6 min-h-screen">
+            <Navbar />
+            {!isHome && <Breadcrumbs />}
+            <main class="flex-1 py-10">
+                <slot />
+            </main>
+
+            <Footer />
+        </div>
+    </body>
+</html>

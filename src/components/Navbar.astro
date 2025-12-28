@@ -1,0 +1,48 @@
+---
+import { Github, Twitter, Mail, Sun } from "lucide-react";
+import home from "../../public/favicon.ico";
+import { Image } from "astro:assets";
+---
+
+<nav
+    class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/50 backdrop-blur-md"
+>
+    <div class="mx-auto max-w-5xl px-6 h-16 flex items-center justify-between">
+        <a
+            href="/"
+            class="font-bold tracking-tighter hover:opacity-80 transition-opacity"
+        >
+            <Image
+                src={home}
+                alt="home"
+                class="size-10 rounded-full object-cover"
+                width={200}
+                height={200}
+                quality={100}
+            />
+        </a>
+
+        <div class="flex items-center gap-6 text-sm font-medium">
+            <a href="/blog" class="hover:text-primary transition-colors">Blog</a
+            >
+            <a href="/projects" class="hover:text-primary transition-colors"
+                >Projects</a
+            >
+            <a href="/about" class="hover:text-primary transition-colors"
+                >About</a
+            >
+            <button
+                onclick="
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem(
+              'theme',
+              document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+            );
+          "
+                class="p-2 hover:bg-muted rounded-lg transition-colors"
+            >
+                <Sun className="h-4 w-4" />
+            </button>
+        </div>
+    </div>
+</nav>
