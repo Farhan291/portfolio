@@ -2,6 +2,11 @@
 import "../styles/global.css";
 import Layout from "../layouts/Layout.astro";
 import Homecontent from "@/content/pages/Home.mdx";
+import { getCollection } from "astro:content";
+const posts = await getCollection("blog");
+const latestPosts = posts
+    .sort((a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate))
+    .slice(0, 3);
 ---
 
 <Layout>
@@ -9,4 +14,72 @@ import Homecontent from "@/content/pages/Home.mdx";
         <div class="font-bold font text-2xl pb-10">Hey, I'm Farhan</div>
         <Homecontent />
     </div>
+    <section class="mt-10 grid gap-4 sm:grid-cols-2">
+        <a
+            href="/resume"
+            class="rounded-lg border border-border p-4 hover:bg-accent transition"
+        >
+            <p class="font-semibold">Resume</p>
+            <p class="text-sm text-muted-foreground">Resume</p>
+        </a>
+        <a
+            href="/projects"
+            class="rounded-lg border border-border p-4 hover:bg-accent transition"
+        >
+            <p class="font-semibold">Projects</p>
+            <p class="text-sm text-muted-foreground">
+                Things I’m building and experimenting with
+            </p>
+        </a>
+    </section>
+    <section class="mt-16 space-y-6">
+        <div class="flex items-center justify-between">
+            <h2 class="text-lg font-semibold tracking-tight">Latest writing</h2>
+
+            <a
+                href="/blog"
+                class="text-sm text-muted-foreground hover:text-foreground transition"
+            >
+                View all →
+            </a>
+        </div>
+
+        <div class="space-y-4">
+            {
+                latestPosts.map((post) => (
+                    <a
+                        href={`/blog/${post.id}`}
+                        class="block rounded-lg border border-border p-4 hover:bg-accent transition"
+                    >
+                        <div class="flex justify-between items-start gap-4">
+                            <div>
+                                <p class="font-medium">{post.data.title}</p>
+                                <p class="text-sm text-muted-foreground mt-1">
+                                    {post.data.description}
+                                </p>
+                            </div>
+
+                            <time class="text-xs text-muted-foreground whitespace-nowrap">
+                                {new Date(
+                                    post.data.pubDate,
+                                ).toLocaleDateString()}
+                            </time>
+                        </div>
+                    </a>
+                ))
+            }
+        </div>
+    </section>
+    <a
+        href="https://archived.yoursite.xyz"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="fixed bottom-20 right-100
+             text-xs text-muted-foreground
+             hover:text-foreground
+             transition-colors
+             opacity-70 hover:opacity-100"
+    >
+        view the previous/archived version →
+    </a>
 </Layout>
