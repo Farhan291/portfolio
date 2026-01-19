@@ -10,4 +10,14 @@ import mdx from "@astrojs/mdx";
 export default defineConfig({
   vite: { plugins: [tailwindcss()] },
   integrations: [react(), mdx()],
+  markdown: {
+    shikiConfig: {
+      themes: {
+        light: "github-dark",
+      },
+      wrap: true,
+      transformers: [],
+    },
+    syntaxHighlight: "shiki",
+  },
 });

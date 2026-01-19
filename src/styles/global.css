@@ -4,77 +4,120 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
 
-    --color-primary: var(--primary);
-    --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
 
-    --color-muted: var(--muted);
-    --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
 
-    --color-destructive: var(--destructive);
-    --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
 
-    --color-border: var(--border);
-    --color-ring: var(--ring);
-    --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-accent: var(--accent);
 
-    /* Typography Overrides */
-    --font-sans: "JetBrains Mono Nerd", monospace;
-    --font-mono: "JetBrains Mono Nerd", monospace;
+  /* Typography Overrides */
+  --font-sans: "JetBrains Mono Nerd", monospace;
+  --font-mono: "JetBrains Mono Nerd", monospace;
 }
 
 @layer base {
-    * {
-        @apply border-border outline-ring/50;
+  * {
+    @apply border-border outline-ring/50;
+  }
+  @media (max-width: 640px) {
+    .prose pre code {
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+  }
+
+  :root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+    --accent: oklch(96.7% 0.001 286.375);
+  }
+  .dark {
+    --background: oklch(21% 0.006 285.885);
+    --foreground: oklch(0.985 0 0);
+
+    --primary: oklch(0.985 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+
+    --muted: oklch(0.205 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+
+    --border: oklch(0.269 0 0);
+    --ring: oklch(0.439 0 0);
+
+    --accent: oklch(0.269 0 0);
+
+    --destructive: oklch(0.704 0.191 22.216);
+  }
+
+  @font-face {
+    font-family: "JetBrains Mono Nerd";
+    src: url("/fonts/jbmono-nerd/fonts/ttf/JetBrainsMono-Light.ttf")
+      format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "JetBrains Mono Nerd";
+    src: url("/fonts/jbmono-nerd/fonts/ttf/JetBrainsMono-Bold.ttf")
+      format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  * Code block styling */ .prose pre {
+    @apply bg-muted border border-border rounded-lg;
+    padding: 1rem;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  /* Inline code */
+  .prose :not(pre) > code {
+    @apply bg-muted text-foreground px-1.5 py-0.5 rounded;
+    font-size: 0.875em;
+  }
+
+  /* Remove default prose code background in dark mode */
+  .dark .prose pre {
+    @apply bg-muted;
+  }
+
+  .dark .prose :not(pre) > code {
+    @apply bg-muted text-foreground;
+  }
+
+  /* Mobile code block improvements */
+  @media (max-width: 640px) {
+    .prose pre {
+      margin-left: -1rem;
+      margin-right: -1rem;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
     }
 
-    :root {
-        --background: oklch(1 0 0);
-        --foreground: oklch(0.145 0 0);
-        --primary: oklch(0.205 0 0);
-        --primary-foreground: oklch(0.985 0 0);
-        --muted: oklch(0.97 0 0);
-        --muted-foreground: oklch(0.556 0 0);
-        --destructive: oklch(0.577 0.245 27.325);
-        --border: oklch(0.922 0 0);
-        --ring: oklch(0.708 0 0);
-        --accent: oklch(96.7% 0.001 286.375);
+    .prose pre code {
+      font-size: 0.875rem;
+      line-height: 1.5;
     }
-    .dark {
-        --background: oklch(21% 0.006 285.885);
-        --foreground: oklch(0.985 0 0);
-
-        --primary: oklch(0.985 0 0);
-        --primary-foreground: oklch(0.205 0 0);
-
-        --muted: oklch(0.205 0 0);
-        --muted-foreground: oklch(0.708 0 0);
-
-        --border: oklch(0.269 0 0);
-        --ring: oklch(0.439 0 0);
-
-        --accent: oklch(0.269 0 0);
-
-        --destructive: oklch(0.704 0.191 22.216);
-    }
-
-    @font-face {
-        font-family: "JetBrains Mono Nerd";
-        src: url("/fonts/jbmono-nerd/fonts/ttf/JetBrainsMono-Light.ttf")
-            format("truetype");
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-    }
-
-    @font-face {
-        font-family: "JetBrains Mono Nerd";
-        src: url("/fonts/jbmono-nerd/fonts/ttf/JetBrainsMono-Bold.ttf")
-            format("truetype");
-        font-weight: 700;
-        font-style: normal;
-        font-display: swap;
-    }
+  }
 }

@@ -10,6 +10,7 @@ export async function getStaticPaths() {
         props: { post },
     }));
 }
+
 interface Props {
     post: CollectionEntry<"blog">;
 }
@@ -18,41 +19,61 @@ const { post } = Astro.props;
 const { Content, headings } = await render(post);
 ---
 
-<div class="relative">
-    <meta charset="UTF-8" />
-    <aside class="hidden xl:block fixed left-6 top-24 w-64">
-        <p class="mb-4 text-sm font-semibold uppercase opacity-60">
-            Table of Contents
-        </p>
-
-        <ul class="space-y-2 border-l border-border pl-4">
-            {
-                headings.map((heading) => (
-                    <li class={heading.depth > 2 ? "ml-4" : ""}>
-                        <a
-                            href={`#${heading.slug}`}
-                            class="block text-sm font-mono
-                     text-muted-foreground
-                     hover:text-foreground
-                     transition-colors"
-                        >
-                            {heading.text}
-                        </a>
-                    </li>
-                ))
-            }
-        </ul>
-    </aside>
-    <Layout title={post.data.title}>
-        <article>
+<Layout title={post.data.title}>
+    <div class="relative">
+        <meta charset="UTF-8" />
+        <aside class="hidden xl:block fixed left-6 top-24 w-64">
+            <p class="mb-4 text-sm font-semibold uppercase opacity-60">
+                Table of Contents
+            </p>
+            <ul class="space-y-2 border-l border-border pl-4">
+                {
+                    headings.map((heading) => (
+                        <li class={heading.depth > 2 ? "ml-4" : ""}>
+                            <a
+                                href={`#${heading.slug}`}
+                                class="block text-sm font-mono
+                                 text-muted-foreground
+                                 hover:text-foreground
+                                 transition-colors"
+                            >
+                                {heading.text}
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </aside>
+        
+        <article class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 class="text-3xl font-bold">{post.data.title}</h1>
             <time class="block mt-1 text-sm opacity-60">
                 {post.data.pubDate}
             </time>
-
             <div class="prose dark:prose-invert max-w-none pt-6">
                 <Content />
             </div>
         </article>
-    </Layout>
-</div>
+    </div>
+</Layout>
+
+<style is:global>
+    /* Better mobile code block handling */
+    .prose pre {
+        @apply overflow-x-auto;
+        max-width: 100%;
+    }
+    
+    .prose code {
+        @apply break-words;
+    }
+    
+    /* Ensure code blocks don't break layout on mobile */
+    @media (max-width: 640px) {
+        .prose pre {
+            margin-left: -1rem;
+            margin-right: -1rem;
+            border-radius: 0;
+        }
+    }
+</style>
