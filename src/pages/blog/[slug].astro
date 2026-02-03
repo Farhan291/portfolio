@@ -76,4 +76,15 @@ const { Content, headings } = await render(post);
             border-radius: 0;
         }
     }
+
+    /* Center LaTeX display equations */
+    .prose .katex-display {
+        text-align: center;
+        margin: 1.5rem 0;
+    }
+    
+    .prose mjx-container[display="true"] {
+        text-align: center;
+        margin: 1.5rem 0;
+    }
 </style>

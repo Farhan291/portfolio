@@ -35,6 +35,12 @@
       line-height: 1.5;
     }
   }
+  .prose .katex-display {
+    @apply text-foreground;
+  }
+  .prose .math-display {
+    @apply text-center my-6;
+  }
 
   :root {
     --background: oklch(1 0 0);
@@ -83,11 +89,15 @@
     font-style: normal;
     font-display: swap;
   }
-  * Code block styling */ .prose pre {
+  .prose pre {
     @apply bg-muted border border-border rounded-lg;
     padding: 1rem;
     overflow-x: auto;
     max-width: 100%;
+  }
+  .prose code::before,
+  .prose code::after {
+    content: "" !important;
   }
 
   /* Inline code */
