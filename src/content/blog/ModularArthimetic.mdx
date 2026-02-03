@@ -1,0 +1,239 @@
+---
+title: "Binary Exponentiation & Modular Arithmetic for Competitive Programming"
+description: "Learn binary exponentiation, modular arithmetic, and Fermat’s theorem to safely handle massive numbers in contests."
+pubDate: "February 3, 2026"
+word: 920
+time: "5 min"
+cover: "./modular.png"
+---
+## Introduction
+Ever wondered how competitive programmers handle massive numbers under strict constraints?
+
+Most online judges restrict the use of external libraries.   
+In C++, the largest commonly used integer type is `long long`, which is 64 bits and can store values up to **~$9 \times 10^{18}$**     
+However, many problems require computing expressions like powers, products, or divisions that quickly exceed this limit.  
+To deal with this, online judges usually ask for the result **modulo M** (for example $10^9 + 7$).  
+This is where **modular arithmetic** and **binary exponentiation** become essential tools.
+
+> **Note:**  
+> This blog focuses on competitive programming techniques.  
+> In real-world applications, languages like Python or libraries such as OpenSSL handle large integers internally, so developers rarely implement these algorithms by hand.
+---
+
+##  The Problem
+
+Let's say you are given a,b and asked to compute $(a^b) \bmod M$. Constraints: $0 \leq a, b \leq 10^{18}$ and $M = 10^9 + 7$.
+### Naive Approach
+
+```c++
+long long a, b;
+long long M = 1e9 + 7;
+// a, b initialized by taking input
+
+long long ans = 1;
+for (long long i = 0; i < b; ++i) {
+    ans = (ans * a) % M;
+}
+```
+**Why this fails:**  
+1. This approach times out when $b > 10^8$
+2.Even though we apply % M, the multiplication ans * a happens before the modulo operation in the worst case, this value can reach $10^{36}$ which far exceeds the capacity of any built-in C++ integer type.
+Thus, overflow occurs before the modulo can reduce the value. 
+## Binary Exponentiation Approach
+ **$\mathcal{O}( \log b)$**  
+
+ We will use the advantage of representing numbers in binary to get an optimized algorithm.  
+For example, writing $13$ in binary:  
+$$
+13 = 1101_2 = 8 + 4 + 1
+$$  
+This tells us:  
+$$
+a^{13} = a^8 \times a^4 \times a^1
+$$  
+Using the identity:  
+$$
+a^{m+n} = a^m \times a^n
+$$  
+we can compute powers of $a$ by repeated squaring:  
+$$
+a^1, a^2, a^4, a^8, \ldots
+$$
+and multiply only those powers where the corresponding bit in $b$ is set.
+
+we are using divide and conquer strategy to calculate ans.
+```cpp
+long long binpow(long long a, long long b, long long m) {
+    a %= m; // Update a if it is >= m to avoid overflow in first step
+    long long ans = 1;
+    while (b > 0) {
+        // If the last bit is 1, multiply the current power of 'a' to result
+        if (b & 1) 
+            ans = (ans * a) % m;
+        // Square 'a' for the next bit (a^1 -> a^2 -> a^4 ...)
+        a = (a * a) % m;
+        // Remove the last bit to process the next one
+        b = (b>> 1); 
+    }
+    return ans;
+}
+```
+The loop runs until all bits of b are consumed. Since the number of bits is logarithmic, the complexity is  **$\mathcal{O}( \log b)$**  
+
+This solves our time complexity problem, but we still have to handle overflow issues depending on the constraints.
+## Variations Based on Constraints
+**case 1:**  
+If a is large, reducing it modulo m at the beginning is sufficient:
+`a %= m`   
+This ensures all future operations remain bounded.
+
+**case 2:**  
+If `m` is around $10^{18}$, then calculating `a * a` inside our `binpow` function will result in $10^{36}$, which overflows `long long`.  
+To solve this, we use **Binary Multiplication** (sometimes called "Modular Multiplication"). Just as exponentiation is repeated multiplication, multiplication is repeated addition:
+$$
+a \times b = \underbrace{a + a + \cdots + a}_{b \text{ times}}
+$$
+We can apply the same divide and conquer strategy to avoid multiplying two large numbers directly. Instead, we add them, because `a + a` ($2.10^{18}$) fits inside a `long long` whereas `a * a` does not.
+```cpp
+long long binmul(long long a, long long b, long long m) {
+    long long ans = 0;
+    a %= m;
+    while (b > 0) {
+        // If the last bit is 1, add the current value of 'a' to result
+        if (b & 1)
+            ans = (ans + a) % m;
+        // Double 'a' for the next bit (a -> 2a -> 4a ...)
+        a = (a + a) % m;
+        // Remove the last bit
+        b=(b>>1);
+    }
+    return ans;
+}
+```
+This makes the overall exponentiation complexity $O((\log b)^2)$ if you use `binmul` inside `binpow`, which is slower but overflow-safe.
+
+In GCC compilers (used by Codeforces, etc.), you can often skip writing the binmul loop by using the **`__int128`** type, which supports numbers up to ≈$10^{38}$.
+```cpp
+long long res = ((__int128)a * b) % m;
+```
+This is **$\mathcal{O}(1)$**   and much faster than the loop
+
+**case 3:**  
+If `b` is exponentially large like $b^c$ , we can't simply do like 
+$$ 
+a^{(b^c \bmod M)} \bmod M
+$$
+Instead, we make use of **Euler's Theorem** and **Euler's Totient Function**.
+
+**Euler's Totient Function** $\phi(n)$: for any number $n$ is simply the count of numbers from $1$ to $n-1$ that are co-prime with $n$.
+
+**Example:** $\phi(5) = 4$ as $1, 2, 3, 4$ are all co-prime with $5$.
+
+**Mathematical Formula:**
+$$\phi(n) = n \prod_{p | n} \left(1 - \frac{1}{p}\right)$$
+
+where $p$ represents the distinct prime factors of $n$.
+
+According to **Euler's Theorem**, if $\gcd(a, M) = 1$:
+
+$$a^{\phi(M)} \equiv 1 \pmod{M}$$
+
+This allows us to reduce the exponent modulo $\phi(M)$:
+
+$$a^{b^c} \equiv a^{(b^c \bmod \phi(M))} \pmod{M}$$
+
+**The "Safe" Formula (Extended Euler's Theorem)**
+
+In Competitive Programming, often $\gcd(a, M) \neq 1$. To handle all cases (even when $a$ and $M$ share factors), we use the extended formula (valid when exponent $\geq \phi(M)$):
+
+$$a^{b^c} \equiv a^{(b^c \bmod \phi(M)) + \phi(M)} \pmod{M}$$
+
+In 99% of CP problems, $M$ is a prime number (like $10^9 + 7$). If $M$ is prime:
+
+- $\phi(M) = M - 1$
+- $\gcd(a, M) = 1$ (unless $a$ is a multiple of $M$, in which case the answer is $0$)
+
+So the formula simplifies purely to **Fermat's Little Theorem**:
+
+$$
+a^{b^c} \pmod{M} = a^{(b^c \bmod (M-1))} \pmod{M}
+$$
+```cpp
+// Edge case: If a is a multiple of M, the answer is 0 (unless exponent is 0)
+if (a % M == 0) return 0;
+// Calculate the effective exponent: b^c % (M-1)
+long long exp = binpow(b, c, M-1);
+// Calculate the final answer: a^effective_exponent % M
+long long ans = binpow(a, exp, M);
+```
+## Modular Inverse
+There are many instances in competitive programming where we need to perform division, such as calculating combinations $\binom{n}{r} = \frac{n!}{r!(n-r)!}$.
+
+However, unlike addition and multiplication, **division does not work directly** in modular arithmetic:
+
+$$\frac{a}{b} \pmod{M} \neq \frac{a \pmod{M}}{b \pmod{M}}$$
+
+You cannot simply divide the remainders.
+
+Instead, we use the **Modular Multiplicative Inverse**. Dividing by $b$ is the same as multiplying by $b^{-1}$ (the inverse of $b$):
+
+$$\left(\frac{a}{b}\right) \pmod{M} \equiv (a \times b^{-1}) \pmod{M}$$
+
+Our goal is to find a number $x$ such that:
+
+$$b \cdot x \equiv 1 \pmod{M}$$
+
+## Using Fermat's Little Theorem
+
+The most common way to find this inverse in CP is using **Fermat's Little Theorem**.
+
+As we saw earlier, if $M$ is a prime number and $a$ is not a multiple of $M$:
+
+$$
+a^{M-1} \equiv 1 \pmod{M}
+$$
+
+If we multiply both sides by $a^{-1}$:
+
+$$
+a^{M-1} \cdot a^{-1} \equiv 1 \cdot a^{-1} \pmod{M}
+$$
+
+$$
+a^{M-2} \equiv a^{-1} \pmod{M}
+$$
+To find the inverse of a modulo M (where M is prime), we simply calculate $a^{M−2}\pmod M$ . We can do this efficiently using our existing `binpow` function.
+```cpp
+long long modInverse(long long n, long long m) {
+    return binpow(n, m - 2, m);
+}
+// Example usage for (a / b) % m:
+long long ans = (a * modInverse(b, m)) % m;
+```
+This method only works when M is prime. If M is not prime (e.g M=100), you cannot use Fermat's Little Theorem. You must use the Extended Euclidean Algorithm instead.
+
+## Conclusion
+Binary exponentiation is a powerful technique that allows us to compute large powers efficiently under strict time and memory constraints.  
+By combining it with modular arithmetic, we can safely handle expressions that would otherwise overflow standard integer types.  
+The same idea extends naturally to other structures as well. For example, **matrix exponentiation** can be implemented by replacing the `*` operator with matrix multiplication and applying modulo to each matrix element.  
+We also saw how **Euler’s Totient Function**, **Euler’s Theorem**, and **Fermat’s Little Theorem** help deal with extremely large exponents and enable important operations such as **modular division** via modular inverses.  
+These techniques form the backbone of many number-theory problems in competitive programming and are worth mastering as reusable patterns.
+
+## Further Reading
+
+- [Binary Exponentiation - CP-Algorithms](https://cp-algorithms.com/algebra/binary-exp.html)
+- [Fermat's Little Theorem Proof](https://t5k.org/notes/proofs/FermatsLittleTheorem.html)
+- [Extended Euclidean Algorithm - CP-Algorithms](https://cp-algorithms.com/algebra/extended-euclid-algorithm.html)
+- [Modular Inverse - CP-Algorithms](https://cp-algorithms.com/algebra/module-inverse.html)
+- [Chinese Remainder Theorem - CP-Algorithms](https://cp-algorithms.com/algebra/chinese-remainder-theorem.html)
+- [Montgomery Multiplication - CP-Algorithms](https://cp-algorithms.com/algebra/montgomery_multiplication.html)
+
+## Practice Problems
+
+- [CSES - Exponentiation](https://cses.fi/problemset/task/1095)
+- [SPOJ - Last Digit](https://www.spoj.com/problems/LASTDIG/)
+- [LeetCode - Count Good Numbers](https://leetcode.com/problems/count-good-numbers/description/)
+- [SPOJ - Just Add It](https://www.spoj.com/problems/ZSUM/)
+- [Codeforces - Kill DemoDogs](https://codeforces.com/problemset/problem/1731/B)
+- [CSES - Exponentiation II](https://cses.fi/problemset/task/1712)
+- [Eolymp - Modular Division](https://eolymp.com/en/problems/9606)
