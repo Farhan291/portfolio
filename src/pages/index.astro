@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Layout from "../layouts/Layout.astro";
 import Homecontent from "@/content/pages/Home.mdx";
 import { getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
 const posts = await getCollection("blog");
 const latestPosts = posts
     .sort((a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate))
@@ -11,26 +12,135 @@ const latestPosts = posts
 
 <Layout>
     <div class="flex flex-col border border-border p-4">
-        <div class="font-bold font text-2xl pb-10">Hey, I'm Farhan</div>
+        <div class="font-bold font text-2xl pb-10">Hello, I'm Farhan</div>
         <Homecontent />
     </div>
-    <section class="mt-10 grid gap-4 sm:grid-cols-2">
-        <a
-            href="/resume.pdf"
-            class="rounded-lg border border-border p-4 hover:bg-accent transition"
-        >
-            <p class="font-semibold">Resume</p>
-            <p class="text-sm text-muted-foreground">Resume</p>
-        </a>
-        <a
-            href="/projects"
-            class="rounded-lg border border-border p-4 hover:bg-accent transition"
-        >
-            <p class="font-semibold">Projects</p>
-            <p class="text-sm text-muted-foreground">
-                Things I’m building and experimenting with
+    <section class="mt-8 space-y-4">
+        <div>
+            <h2 class="font font-bold text-xl">Tech cookies</h2>
+            <!--<p class="text-sm text-muted-foreground mt-1">
+                Some of them are scrollable! Hold SHIFT to scroll it if you are on desktop!
+            </p>-->
+        </div>
+
+        <!-- Linux -->
+        <div class="border border-border rounded-lg p-4">
+            <p class="font-bold font pb-1 flex">
+                Linux<span
+                    ><Icon
+                        name="simple-icons:linux"
+                        class="pl-2 h-6 w-10"
+                    /></span
+                >
             </p>
-        </a>
+            <p class="text-sm text-muted-foreground pb-4">
+                This is a small list of Linux related software or distribution
+                I've tried before
+            </p>
+            <div class="flex gap-6 overflow-x-auto pb-2 items-center">
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:archlinux" class="text-base" /> Arch</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:fedora" class="text-base" /> Fedora</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:hyprland" class="text-base" /> Hyprland</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:gnome" class="text-base" /> Gnome</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:kalilinux" class="w-6 h-10" /> Kali</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:debian" class="text-base" /> Debian</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:ubuntu" class="text-base" /> Ubuntu</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:linuxmint" class="text-base" /> Mint</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:proxmox" class="text-base" /> Proxmox</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:qemu" class="text-base" /> Qemu</span
+                >
+            </div>
+        </div>
+
+        <!-- Language & frameworks -->
+        <div class="border border-border rounded-lg p-4">
+            <p class="font-bold font pb-3">Language & frameworks</p>
+            <div class="flex gap-6 overflow-x-auto pb-2 items-center">
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="mdi:language-c" class="w-6 h-10" /> C</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:astro" class="text-base" /> Astro</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:javascript" class="text-base" /> JavaScript</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:typescript" class="text-base" /> TypeScript</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="devicon-plain:csharp" class="text-base" /> Csharp</span
+                >
+
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:nodedotjs" class="text-base" /> Node.js</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:hono" class="text-base" /> Hono.js</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:nextdotjs" class="text-base" /> Next.js</span
+                >
+            </div>
+        </div>
+
+        <!-- Application & network related -->
+        <div class="border border-border rounded-lg p-4">
+            <p class="font-bold font pb-3">Application & network related</p>
+            <div class="flex gap-6 overflow-x-auto pb-2 items-center">
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:docker" class="text-base" /> Docker
+                </span>
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:podman" class="text-base" /> Podman
+                </span>
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:nginx" class="text-base" /> nginx</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:cloudflare" class="text-base" /> Cloudflare
+                    & Pages</span
+                >
+            </div>
+        </div>
+
+        <!-- Learning :L -->
+        <div class="border border-border rounded-lg p-4">
+            <p class="font-bold font pb-3">Learning :L</p>
+            <div class="flex gap-6 overflow-x-auto pb-2 items-center">
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:rust" class="text-base" /> Rust</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:go" class="w-6 h-10" /> Go</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:cplusplus" class="text-base" /> C++</span
+                >
+                <span class="flex items-center gap-1.5 shrink-0"
+                    ><Icon name="simple-icons:dotnet" class="w-6 h-10" /> DotNet
+                </span>
+            </div>
+        </div>
     </section>
     <section class="mt-16 space-y-6">
         <div class="flex items-center justify-between">
@@ -70,16 +180,14 @@ const latestPosts = posts
             }
         </div>
     </section>
-    <a
-        href="https://farhan291.github.io/profile/"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="fixed bottom-20 right-100
-             text-xs text-muted-foreground
-             hover:text-foreground
-             transition-colors
-             opacity-70 hover:opacity-100"
-    >
-        view the previous/archived version →
-    </a>
+    <p class="mt-8 text-sm text-muted-foreground">
+        <a
+            href="https://farhan291.github.io/profile/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-foreground transition-colors opacity-70 hover:opacity-100"
+        >
+            view the previous/archived version →
+        </a>
+    </p>
 </Layout>
