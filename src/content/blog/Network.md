@@ -5,6 +5,7 @@ pubDate: "January 17, 2026"
 word: 2050 
 time: "10 min"
 cover: "/network.jpg"
+tags: ["networking", "c"]
 ---
 
 ## Introduction 

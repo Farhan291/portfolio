@@ -5,6 +5,7 @@ pubDate: "March 11, 2026"
 word: 849
 time: "4 min"
 cover: "/cloud.jpg"
+tags: ["self-hosting", "linux", "docker"]
 ---
 
 So hi! 

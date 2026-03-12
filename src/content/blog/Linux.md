@@ -5,6 +5,7 @@ pubDate: "December 27, 2025"
 word: 392
 time: "2 min"
 cover: "/cover.png"
+tags: ["linux", "personal"]
 ---
 
 ![linux](./cover.png)

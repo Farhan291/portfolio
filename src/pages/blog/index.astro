@@ -2,15 +2,40 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 const posts = await getCollection("blog");
+
+const allTags = [
+    ...new Set(posts.flatMap((post) => post.data.tags ?? [])),
+].sort();
 ---
 
 <Layout title="Blog | farhan">
-    <div class="flex flex-col space-y-10">
+    <div class="flex flex-wrap gap-2 mb-8">
+        <a
+            href="/blog"
+            data-tag=""
+            class="tag-btn border border-border px-2 py-0.5 text-xs rounded hover:bg-accent transition"
+        >
+            all
+        </a>
+        {
+            allTags.map((tag) => (
+                <a
+                    href={`/blog?tag=${tag}`}
+                    data-tag={tag}
+                    class="tag-btn border border-border px-2 py-0.5 text-xs rounded hover:bg-accent transition"
+                >
+                    {tag}
+                </a>
+            ))
+        }
+    </div>
+    <div class="flex flex-col space-y-10" id="posts">
         {
             posts.map((post) => (
                 <a
                     href={`/blog/${post.id}`}
-                    class=" flex bg-accent items-center p-3 border border-border"
+                    data-tags={JSON.stringify(post.data.tags ?? [])}
+                    class="post-item flex bg-accent items-center p-3 border border-border"
                 >
                     <div
                         class="h-20 w-32 shrink-0 overflow-hidden rounded-md bg-muted
@@ -27,12 +52,52 @@ const posts = await getCollection("blog");
                         <p class="font-bold text-lg">{post.data.title}</p>
                         <p class="text-xs">
                             {post.data.pubDate} | {post.data.time} |{" "}
-                            {post.data.word} words{" "}
+                            {post.data.word} words
                         </p>
                         <p class="text-sm">{post.data.description}</p>
+                        {post.data.tags && (
+                            <div class="flex flex-wrap gap-1.5">
+                                {post.data.tags.map((tag: string) => (
+                                    <span class="border border-border px-1.5 py-0.5 text-[10px] rounded text-muted-foreground">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </a>
             ))
         }
     </div>
 </Layout>
+
+<script>
+    function filterPosts() {
+        const tag = new URLSearchParams(window.location.search).get("tag");
+        const posts = document.querySelectorAll<HTMLElement>(".post-item");
+        const btns = document.querySelectorAll<HTMLElement>(".tag-btn");
+
+        btns.forEach((btn) => {
+            const btnTag = btn.getAttribute("data-tag");
+            if (btnTag === (tag ?? "")) {
+                btn.classList.add("bg-accent", "font-semibold");
+            } else {
+                btn.classList.remove("bg-accent", "font-semibold");
+            }
+        });
+
+        posts.forEach((post) => {
+            const tags: string[] = JSON.parse(
+                post.getAttribute("data-tags") ?? "[]",
+            );
+            if (!tag || tags.includes(tag)) {
+                post.style.display = "";
+            } else {
+                post.style.display = "none";
+            }
+        });
+    }
+
+    filterPosts();
+    document.addEventListener("astro:after-swap", filterPosts);
+</script>
