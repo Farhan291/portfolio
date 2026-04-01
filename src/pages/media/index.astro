@@ -1,0 +1,154 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import MediaCard from "../../components/MediaCard.astro";
+
+const mediaItems = [
+    {
+        title: "Death Note",
+        image: "https://myanimelist.net/images/anime/1001/121564.jpg",
+        rating: "10/10",
+        tags: ["anime", "my top #3"],
+        status: "completed",
+        thoughts:
+            "My first anime. Enjoyed it a lot, and yes, my internet alias 'light' is inspired by this show.",
+    },
+    {
+        title: "Monogatari Series",
+        image: "https://myanimelist.net/images/anime/1142/146776.jpg",
+        rating: "9.8/10",
+        tags: ["anime"],
+        status: "currently watching",
+        thoughts:
+            "I have watched dozens of anime but never watched any this unique in art direction and style. The story is pretty great too.",
+    },
+    {
+        title: "Three Days of Happiness",
+        image: "https://myanimelist.net/images/manga/5/260043.jpg",
+        rating: "10/10",
+        tags: ["manga", "my top #3"],
+        status: "completed",
+        thoughts:
+            "Favorite manga, read this during my worst phase of life and it really inspired me to appreciate life, probably the media that influenced my life the most.",
+    },
+    {
+        title: "The Little Book That Builds Wealth",
+        image: "https://img1.od-cdn.com/ImageType-400/0128-1/184/735/02/%7B18473502-02D2-48D7-A3E8-209F631A80A3%7DImg400.jpg",
+        rating: "9/10",
+        tags: ["book"],
+        status: "completed",
+        thoughts: "Worth reading.",
+    },
+    {
+        title: "Game of Thrones",
+        image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.QqNaHKp5qWb7c5BNXLwsvgHaLH%3Fpid%3DApi&f=1&ipt=ac02d44dedbe8e0ebc2a4d16577ef6c1c5fa879da676766b509dc608e8961b71&ipo=images",
+        rating: "8.7/10",
+        tags: ["tv"],
+        status: "completed",
+        thoughts:
+            "S1-S6 was great, then had a downfall even worse than my life :(",
+    },
+    {
+        title: "To Be Hero X",
+        image: "https://myanimelist.net/images/anime/1492/150628.jpg",
+        rating: "10/10",
+        tags: ["anime", "my top #3"],
+        status: "completed",
+        thoughts:
+            "Crazy Chinese anime, the way it handles the anthology stories and combines all those events together in the end was a 200 IQ move.",
+    },
+    {
+        title: "Devotion",
+        image: "https://a.storyblok.com/f/140876/400x205/ac4363ea4b/devotion_badge.jpg",
+        rating: "8/10",
+        tags: ["game", "horror"],
+        status: "completed",
+        thoughts: "Great horror game, liked it more than 'Detention'.",
+    },
+    {
+        title: "Doki Doki Literature Club",
+        image: "https://teamsalvato.com/images/games/ddlc.webp",
+        rating: "9/10",
+        tags: ["visual novel"],
+        status: "completed",
+        thoughts: "Great twist and JUST MONIKA.",
+    },
+    {
+        title: "The Perks of Being a Wallflower",
+        image: "https://a.ltrbxd.com/resized/film-poster/7/1/3/3/8/71338-the-perks-of-being-a-wallflower-0-230-0-345-crop.jpg?v=f2235860f7",
+        rating: "8/10",
+        tags: ["movie"],
+        status: "completed",
+        thoughts: "Relatable movie.",
+    },
+    {
+        title: "Orb: On the Movements of the Earth",
+        image: "https://myanimelist.net/images/anime/1749/145922.jpg",
+        rating: "10/10",
+        tags: ["anime", "my top #3"],
+        status: "completed",
+        thoughts:
+            "One more reason why anime as an art form and storytelling is far superior to any other medium.",
+    },
+    {
+        title: "",
+        image: "https://myanimelist.net/images/anime/1015/138006.jpg",
+        rating: "10/10",
+        tags: ["anime", "my top #3"],
+        status: "completed",
+        thoughts: "Absolutely fantastic.",
+    },
+];
+---
+
+<Layout title="Media Log | farhan">
+    <div class="space-y-6">
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight">media log</h1>
+            <p class="text-muted-foreground mt-2">
+                a small list of stuff i've watched, read, and consumed for full
+                list check out <a
+                    href="https://anilist.co/user/Notlight/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-0.5 text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors"
+                    >Anilist <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="inline"
+                        ><path d="M7 7h10v10"></path><path d="M7 17 17 7"
+                        ></path></svg
+                    ></a
+                >.
+            </p>
+        </div>
+
+        <div class="space-y-4">
+            {
+                mediaItems.length > 0 ? (
+                    mediaItems.map((item) => (
+                        <MediaCard
+                            title={item.title}
+                            image={item.image}
+                            rating={item.rating}
+                            tags={item.tags}
+                            status={item.status}
+                            thoughts={item.thoughts}
+                        />
+                    ))
+                ) : (
+                    <p class="text-muted-foreground text-sm">
+                        No media logged yet. Add items to the mediaItems array
+                        in this file.
+                    </p>
+                )
+            }
+        </div>
+    </div>
+</Layout>

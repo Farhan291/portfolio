@@ -1,0 +1,62 @@
+---
+interface Props {
+    title: string;
+    image: string;
+    rating?: string;
+    tags: string[];
+    thoughts?: string;
+    status?: string;
+}
+
+const { title, image, rating, tags, thoughts, status } = Astro.props;
+---
+
+<div
+    class="flex gap-4 p-4 border border-border rounded-lg hover:bg-accent/50 transition-colors"
+>
+    <img
+        src={image}
+        alt={title}
+        referrerpolicy="no-referrer"
+        onerror="this.onerror=null;this.src='https://via.placeholder.com/112x160?text=No+Image';"
+        class="w-28 h-40 object-cover rounded-md shrink-0"
+    />
+
+    <div class="flex flex-col flex-1 min-w-0">
+        <div class="flex items-start justify-between gap-2">
+            <h3 class="font-bold text-lg tracking-tight">{title}</h3>
+            {
+                rating && (
+                    <span class="text-sm font-medium text-muted-foreground shrink-0">
+                        {rating}
+                    </span>
+                )
+            }
+        </div>
+
+        <div class="flex flex-wrap gap-2 mt-2">
+            {
+                tags.map((tag) => (
+                    <span class="px-2 py-0.5 text-xs rounded-md bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                        {tag}
+                    </span>
+                ))
+            }
+            {
+                status && (
+                    <span class="px-2 py-0.5 text-xs rounded-md bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 font-mono">
+                        {status}
+                    </span>
+                )
+            }
+        </div>
+
+        {
+            thoughts && (
+                <p class="mt-3 text-sm text-muted-foreground leading-relaxed">
+                    {thoughts}
+                </p>
+            )
+        }
+    </div>
+</div>
