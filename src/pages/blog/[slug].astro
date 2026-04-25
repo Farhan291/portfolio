@@ -75,6 +75,11 @@ const { Content, headings } = await render(post);
         @apply overflow-x-auto;
         max-width: 100%;
     }
+
+    .prose pre.astro-code {
+        background-color: #f3f4f6 !important;
+        border-color: #d1d5db;
+    }
     
     .prose code {
         @apply break-words;

@@ -19,7 +19,7 @@ export default defineConfig({
     rehypePlugins: [rehypeKatex],
     shikiConfig: {
       themes: {
-        light: "github-dark",
+        light: "github-light",
       },
       wrap: true,
       transformers: [],
