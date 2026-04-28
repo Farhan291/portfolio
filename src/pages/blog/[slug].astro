@@ -4,18 +4,26 @@ import Layout from "@/layouts/Layout.astro";
 import { render } from "astro:content";
 
 export async function getStaticPaths() {
-    const posts = await getCollection("blog");
-    return posts.map((post: CollectionEntry<"blog">) => ({
-        params: { slug: post.id },
-        props: { post },
+    const posts = (await getCollection("blog")).sort(
+        (a, b) => new Date(a.data.pubDate).getTime() - new Date(b.data.pubDate).getTime()
+    );
+    return posts.map((post: CollectionEntry<"blog">, index) => ({
+        params: { slug: post.id.replace(/\.mdx?$/, "") },
+        props: { 
+            post,
+            prevPost: index > 0 ? posts[index - 1] : null,
+            nextPost: index < posts.length - 1 ? posts[index + 1] : null,
+        },
     }));
 }
 
 interface Props {
     post: CollectionEntry<"blog">;
+    prevPost: CollectionEntry<"blog"> | null;
+    nextPost: CollectionEntry<"blog"> | null;
 }
 
-const { post } = Astro.props;
+const { post, prevPost, nextPost } = Astro.props;
 const { Content, headings } = await render(post);
 ---
 
@@ -64,6 +72,48 @@ const { Content, headings } = await render(post);
             )}
             <div class="prose dark:prose-invert max-w-none pt-6">
                 <Content />
+            </div>
+
+            <!-- RSS and other channels -->
+            <div class="mt-16 mb-8 border-l-4 border-red-500 bg-gray-100 dark:bg-gray-800 p-8 text-center flex flex-col items-center justify-center">
+                <p class="text-gray-500 dark:text-gray-400 mb-6">Welcome to my other publishing channels</p>
+                <a href="/rss.xml" class="flex flex-col items-center justify-center text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg>
+                    <span>RSS</span>
+                </a>
+            </div>
+
+            <!-- Tags -->
+            {post.data.tags && (
+                <div class="flex justify-center gap-4 mb-8">
+                    {post.data.tags.map((tag: string) => (
+                        <a
+                            href={`/blog?tag=${tag}`}
+                            class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 border-b border-gray-400 pb-0.5"
+                        >
+                            #{tag}
+                        </a>
+                    ))}
+                </div>
+            )}
+
+            <!-- Post Navigation -->
+            <hr class="border-border mb-6" />
+            <div class="flex justify-between items-center text-sm">
+                <div>
+                    {prevPost && (
+                        <a href={`/blog/${prevPost.id.replace(/\.mdx?$/, "")}`} class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 flex items-center gap-2">
+                            <span>&lt;</span> {prevPost.data.title}
+                        </a>
+                    )}
+                </div>
+                <div>
+                    {nextPost && (
+                        <a href={`/blog/${nextPost.id.replace(/\.mdx?$/, "")}`} class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 flex items-center gap-2">
+                            {nextPost.data.title} <span>&gt;</span>
+                        </a>
+                    )}
+                </div>
             </div>
         </article>
     </div>

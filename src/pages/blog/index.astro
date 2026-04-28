@@ -36,7 +36,7 @@ const allTags = [
         {
             posts.map((post) => (
                 <a
-                    href={`/blog/${post.id}`}
+                    href={`/blog/${post.id.replace(/\.mdx?$/, "")}`}
                     data-tags={JSON.stringify(post.data.tags ?? [])}
                     class="post-item flex bg-accent items-center p-3 border border-border"
                 >
