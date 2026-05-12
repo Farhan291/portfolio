@@ -4,7 +4,7 @@ description: "This series of blog posts mainly records my process of trying to i
 pubDate: "April 24, 2026"
 word: 1560
 time: "12 min"
-cover: "/kvm.jpg"
+cover: "https://cdn.ifarhan.tech/cdn/blog-cover/kvm.jpg"
 tags: ["Kvm", "linux", "C"]
 ---
 
@@ -141,9 +141,9 @@ There are different memory models, but modern OSes in protected mode use the fla
 
 In flat mode, every segment has `base = 0` and `limit = 0xffffffff`, so the physical address is effectively just the offset. We don't set up a GDT we initialize the segments directly, and the Linux kernel will plug in its own GDT later.
 
-![Protected Mode Flat Model](/proctedmode.png)
+![Protected Mode Flat Model](https://cdn.ifarhan.tech/cdn/blog-inline/proctedmode.png)
 
-![Segment descriptor](/segdesc.png)
+![Segment descriptor](https://cdn.ifarhan.tech/cdn/blog-inline/segdesc.png)
 
 ```c
 void set_flat_mode(struct kvm_segment *seg) {

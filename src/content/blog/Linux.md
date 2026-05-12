@@ -4,11 +4,11 @@ description: "My Linux journey in detail"
 pubDate: "December 27, 2025"
 word: 392
 time: "2 min"
-cover: "/cover.png"
+cover: "https://cdn.ifarhan.tech/cdn/blog-cover/cover.png"
 tags: ["linux", "personal"]
 ---
 
-![linux](./cover.png)
+![linux](https://cdn.ifarhan.tech/cdn/blog-cover/cover.png)
 
 So hi! I have been using Linux for more than a year now, and I have learned a lot. I just wanted to share my experience with everyone.
 
@@ -23,24 +23,24 @@ I began by running Kali Linux inside VMware. Looking back, this was a mistake. K
 After two months, I finally gained the courage to dual-boot. I chose Fedora because I wanted something stable, beginner-friendly, and up to date without the "bleeding edge" risks of a rolling release.
 
 The experience was amazing. I started with [GNOME](https://www.gnome.org/) as Desktop Enivorment and loved how fast and smooth it was.
-![miku](./gnome.png)
+![miku](https://cdn.ifarhan.tech/cdn/blog-inline/gnome.png)
 
 ## Jump to Hyprland
 
 Things started to change when I came to know about ricing and Tiling WM. I soon switched to Hyprland, a modern tiling window manager and initially used the [end-4](https://github.com/end-4/dots-hyprland) dotfiles.
 
-![end4](./fedora_endw.jpg)
+![end4](https://cdn.ifarhan.tech/cdn/blog-inline/fedora_endw.jpg)
 
 Using a tiling window manager at first was a bit difficult. But soon, I started relying more on my keyboard than my mouse, switching from editors like VS Code to (Neo)Vim and relying heavily on keyboard shortcuts. Eventually, I felt limited by pre-made configs and decided to write my own dotfiles from scratch.
 
-![unknown](./unknown.png)
-![home](./home.png)
+![unknown](https://cdn.ifarhan.tech/cdn/blog-inline/unknown.png)
+![home](https://cdn.ifarhan.tech/cdn/blog-inline/home.png)
 
 ## I Use Arch, By the Way
 
-After ten months of Fedora being my daily driver, a college friend told me to try Arch. I had always been intimidated by the "Arch is hard" stereotype, but after living in the terminal for months, I felt ready. I started reading the Arch Wiki and soon installed it on bare metal (after a bit of bullying, *ahem*), triple booting Windows, Fedora, and Arch.
+After ten months of Fedora being my daily driver, a college friend told me to try Arch. I had always been intimidated by the "Arch is hard" stereotype, but after living in the terminal for months, I felt ready. I started reading the Arch Wiki and soon installed it on bare metal (after a bit of bullying, _ahem_), triple booting Windows, Fedora, and Arch.
 
-![arch](./arch.jpg)
+![arch](https://cdn.ifarhan.tech/cdn/blog-inline/arch.jpg)
 
 ## Where I Am Now
 

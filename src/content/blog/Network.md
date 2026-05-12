@@ -4,7 +4,7 @@ description: "A deep dive into network protocols"
 pubDate: "January 17, 2026"
 word: 2050 
 time: "10 min"
-cover: "/network.jpg"
+cover: "https://cdn.ifarhan.tech/cdn/blog-cover/network.jpg"
 tags: ["networking", "c"]
 ---
 
@@ -56,7 +56,7 @@ For example, the port number 443 in memory:
 
 The `ntohs()` function converts a 16-bit value from network byte order to host byte order so we can work with it correctly. Without this conversion, port 443 might appear as 47873 on system.
 
-![linux-network](./linux-network.png)
+![linux-network](https://cdn.ifarhan.tech/cdn/blog-inline/linux-network.png)
 
 ## Layer 2: The Ethernet Frame
 

@@ -4,7 +4,7 @@ description: "Falling down the rabbit hole of self-hosting, servers, and becomin
 pubDate: "March 11, 2026"
 word: 849
 time: "4 min"
-cover: "/cloud.jpg"
+cover: "https://cdn.ifarhan.tech/cdn/blog-cover/cloud.jpg"
 tags: ["self-hosting", "linux", "docker"]
 ---
 
@@ -25,7 +25,7 @@ SSH into the server and update the packages.
 And did the first and mandatory thing all Linux cultists do after booting into Linux, that is **neofetch** lol.
 
 
-![neofetch](./neofetch.jpeg)
+![neofetch](https://cdn.ifarhan.tech/cdn/blog-inline/neofetch.jpeg)
 
 Then I installed some basic tools like vim, git, docker and other essential tools I needed.
 
@@ -70,9 +70,9 @@ Here are some of the services I self-hosted so far:
 - **Stirling PDF** for working with documents
 - A few custom APIs and scripts that I use for side projects
 
-![beszel](src/content/blog/beszel.png)
-![docker](src/content/blog/docker.png)
-![git](src/content/blog/git.png)
+![beszel](https://cdn.ifarhan.tech/cdn/blog-inline/beszel.png)
+![docker](https://cdn.ifarhan.tech/cdn/blog-inline/docker.png)
+![git](https://cdn.ifarhan.tech/cdn/blog-inline/git.png)
 
 What still surprises me is that all of this is running on **1 vCPU and 2GB of RAM**. I honestly never thought it could handle this much load.  
 Swap magic is real, I guess.
