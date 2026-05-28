@@ -4,7 +4,22 @@ import AboutContent from "@/content/pages/About.md";
 import { Icon } from "astro-icon/components";
 ---
 
-<Layout title="About | farhan">
+<Layout
+    title="About | farhan"
+    description="Farhan is a CS student at RIT Bangalore interested in systems programming, Linux, and open source."
+    type="website"
+    jsonLd={{
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: "Farhan",
+        url: "https://ifarhan.tech/about",
+        sameAs: [
+            "https://github.com/farhan291",
+        ],
+        jobTitle: "CS Student",
+        affiliation: "RIT Bangalore",
+    }}
+>
     <article class="prose dark:prose-invert text-foreground max-w-none p-4">
         <AboutContent />
     </article>

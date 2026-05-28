@@ -25,9 +25,47 @@ interface Props {
 
 const { post, prevPost, nextPost } = Astro.props;
 const { Content, headings } = await render(post);
+
+const postSlug = post.id.replace(/\.mdx?$/, "");
+const postURL = new URL(`/blog/${postSlug}`, Astro.site).href;
+const postImage = post.data.cover
+    ? (post.data.cover.startsWith("http") ? post.data.cover : new URL(post.data.cover, Astro.site).href)
+    : "https://avatars.githubusercontent.com/farhan291";
+
+const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.data.title,
+    description: post.data.description,
+    image: postImage,
+    datePublished: post.data.pubDate,
+    url: postURL,
+    author: {
+        "@type": "Person",
+        name: "Farhan",
+        url: "https://ifarhan.tech/about",
+    },
+    publisher: {
+        "@type": "Person",
+        name: "Farhan",
+    },
+    mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": postURL,
+    },
+    keywords: post.data.tags?.join(", "),
+};
 ---
 
-<Layout title={post.data.title}>
+<Layout
+    title={`${post.data.title} | farhan`}
+    description={post.data.description}
+    image={postImage}
+    type="article"
+    pubDate={post.data.pubDate}
+    tags={post.data.tags}
+    jsonLd={jsonLd}
+>
     <div class="relative">
         <meta charset="UTF-8" />
         <aside class="hidden xl:block fixed left-6 top-24 w-64">

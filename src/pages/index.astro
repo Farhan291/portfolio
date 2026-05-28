@@ -10,7 +10,23 @@ const latestPosts = posts
     .slice(0, 6);
 ---
 
-<Layout>
+<Layout
+    title="Home | farhan"
+    description="Farhan's personal blog — writing about Linux, systems programming, networking, and self-hosting."
+    type="website"
+    jsonLd={{
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "farhan",
+        url: "https://ifarhan.tech",
+        description: "Farhan's personal blog — writing about Linux, systems programming, networking, and self-hosting.",
+        author: {
+            "@type": "Person",
+            name: "Farhan",
+            url: "https://ifarhan.tech/about",
+        },
+    }}
+>
         <div class="flex items-center justify-between">
             <h2 class="text-lg font-semibold tracking-tight pl-1 pb-3">Latest writing</h2>
 

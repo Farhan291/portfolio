@@ -9,11 +9,13 @@ import react from "@astrojs/react";
 
 import mdx from "@astrojs/mdx";
 
+import sitemap from "@astrojs/sitemap";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://ifarhan.tech",
   vite: { plugins: [tailwindcss()] },
-  integrations: [react(), mdx(), icon()],
+  integrations: [react(), mdx(), icon(), sitemap()],
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],

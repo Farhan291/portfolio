@@ -5,7 +5,7 @@ pubDate: "April 24, 2026"
 word: 1560
 time: "12 min"
 cover: "https://cdn.ifarhan.tech/cdn/blog-cover/kvm.jpg"
-tags: ["Kvm", "linux", "C"]
+tags: ["kvm", "linux", "c"]
 ---
 
 Recently, I was exploring Proxmox. Before that, I wasn't very familiar with virtualization, so I started exploring KVM and QEMU.  

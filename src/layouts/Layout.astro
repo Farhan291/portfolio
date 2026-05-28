@@ -5,7 +5,33 @@ import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 const isHome = pathname === "/";
-const { title = "Home | farhan" } = Astro.props;
+
+interface Props {
+    title?: string;
+    description?: string;
+    image?: string;
+    canonical?: string;
+    type?: "website" | "article";
+    pubDate?: string;
+    tags?: string[];
+    jsonLd?: Record<string, any>;
+}
+
+const {
+    title = "Home | farhan",
+    description = "Farhan's personal blog — writing about Linux, systems programming, networking, and self-hosting.",
+    image = "https://avatars.githubusercontent.com/farhan291",
+    canonical,
+    type = "website",
+    pubDate,
+    tags,
+    jsonLd,
+} = Astro.props;
+
+const canonicalURL = canonical
+    ? new URL(canonical, Astro.site)
+    : new URL(Astro.url.pathname, Astro.site);
+const imageURL = image.startsWith("http") ? image : new URL(image, Astro.site).href;
 ---
 
 <!doctype html>
@@ -17,16 +43,39 @@ const { title = "Home | farhan" } = Astro.props;
         <link rel="apple-touch-icon" href="https://avatars.githubusercontent.com/farhan291" />
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="alternate" type="application/rss+xml" title="farhan's blog" href="/rss.xml" />
-        <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css"/>
+        <link rel="canonical" href={canonicalURL} />
+
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+        <link rel="preconnect" href="https://analytics.lightchan.online" crossorigin />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css" />
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-         <!-- Umami Analytics -->
-    <script
-        async
-        src="https://analytics.lightchan.online/script.js"
-        data-website-id="ee80b7a2-e46c-477d-84c4-f426c905e80c">
-    </script>
+        <meta name="description" content={description} />
+        <meta name="author" content="Farhan" />
+
+        <!-- Open Graph -->
+        <meta property="og:type" content={type} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:image" content={imageURL} />
+        <meta property="og:site_name" content="farhan" />
+        <meta property="og:locale" content="en_US" />
+        {pubDate && <meta property="article:published_time" content={pubDate} />}
+        {tags && tags.map((tag) => <meta property="article:tag" content={tag} />)}
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={imageURL} />
+
+        <!-- Umami Analytics -->
+        <script
+            async
+            src="https://analytics.lightchan.online/script.js"
+            data-website-id="ee80b7a2-e46c-477d-84c4-f426c905e80c">
+        </script>
 
         <script is:inline>
             const theme = localStorage.getItem("theme");
@@ -35,6 +84,10 @@ const { title = "Home | farhan" } = Astro.props;
             }
         </script>
         <title>{title}</title>
+
+        {jsonLd && (
+            <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+        )}
     </head>
     <body
         class="flex flex-col items-center min-h-screen bg-background text-foreground font-sans selection:bg-blue-400 selection:text-primary-foreground"
