@@ -1,0 +1,82 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+const res = await fetch(
+    "https://raw.githubusercontent.com/threadlockers/webring/main/webring.json",
+);
+const members = await res.json();
+---
+
+<Layout
+    title="Webring | farhan"
+    description="threadlocked webring — a ring of personal sites."
+    type="website"
+>
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold tracking-tight">Webring</h1>
+        <p class="text-sm text-muted-foreground mt-1">
+        Some cool people I know, do checkout their stuff 
+        </p>
+    </div>
+
+    <!-- Nav buttons -->
+    <div class="flex items-center gap-2 mb-8">
+        <a
+            href="https://ring.seggs.lol/redirect?from=farhan&dir=prev"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 border-border text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition"
+        >
+            ← prev
+        </a>
+        <a
+            href="https://ring.seggs.lol/random"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 border-border text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition"
+        >
+            ⇆ random
+        </a>
+        <a
+            href="https://ring.seggs.lol/redirect?from=farhan&dir=next"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 border-border text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition"
+        >
+            next →
+        </a>
+    </div>
+
+    <!-- Members grid -->
+    <div
+        id="webring-grid"
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"
+    >
+    </div>
+
+    <script is:inline define:vars={{ members }}>
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        const grid = document.getElementById("webring-grid");
+        shuffle(members).forEach((m) => {
+            const isSelf = m.name === "farhan";
+            const a = document.createElement("a");
+            a.href = m.url;
+            a.target = "_blank";
+            a.rel = "noopener noreferrer";
+            a.className = [
+                "flex items-center gap-3 px-3 py-2.5 rounded-lg border-2 hover:bg-accent transition group",
+                isSelf
+                    ? "border-violet-400 dark:border-violet-600"
+                    : "border-border",
+            ].join(" ");
+            a.innerHTML = `
+                <img src="https://github.com/${m.gh}.png?size=64" alt="${m.name}"
+                    class="size-7 rounded-full object-cover shrink-0" loading="lazy" />
+                <span class="text-sm text-muted-foreground group-hover:text-foreground transition-colors truncate">${m.name}</span>
+            `;
+            grid.appendChild(a);
+        });
+    </script>
+</Layout>

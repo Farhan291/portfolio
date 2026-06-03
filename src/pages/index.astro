@@ -4,6 +4,11 @@ import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 
+const ringRes = await fetch(
+    "https://raw.githubusercontent.com/threadlockers/webring/main/webring.json",
+);
+const ringMembers = await ringRes.json();
+
 const posts = await getCollection("blog");
 const latestPosts = posts
     .sort((a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate))
@@ -264,7 +269,7 @@ const communities = [
                 </p>
                 <p>
                     I write about whatever I'm currently digging into. If you
-                    want, you can also subscribe via  <a
+                    want, you can also subscribe via <a
                         href="/rss.xml"
                         class="inline-flex items-center px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-300 text-xs font-medium hover:opacity-80 transition-opacity"
                         >RSS</a
@@ -284,9 +289,7 @@ const communities = [
     <!-- Latest Writing -->
     <section class="mb-10">
         <div class="flex items-center justify-between mb-4">
-            <h2 class="text-basundergra tracking-tight">
-                Latest writing
-            </h2>
+            <h2 class="text-basundergra tracking-tight">Latest writing</h2>
             <a
                 href="/blog"
                 class="text-xs text-muted-foreground hover:text-foreground transition"
@@ -371,7 +374,84 @@ const communities = [
 
     <hr class="border-border mb-10" />
 
-    
+    <!-- Webring -->
+    <section class="mb-10">
+        <div class="flex items-center justify-between mb-3">
+            <p class="text-base font-semibold tracking-tight">
+                some cool people I know
+            </p>
+            <a
+                href="/webring"
+                class="text-xs text-muted-foreground hover:text-foreground transition"
+                >View all →</a
+            >
+        </div>
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+                <span
+                    class="text-xs font-semibold tracking-widest border border-border rounded px-2 py-0.5 text-muted-foreground"
+                    >WEBRING</span
+                >
+                <div class="flex items-center gap-1.5">
+                    <a
+                        href="https://ring.seggs.lol/redirect?from=farhan&dir=prev"
+                        class="size-7 flex items-center justify-center rounded-lg border-2 border-border text-muted-foreground hover:text-foreground hover:bg-accent transition text-sm"
+                    >
+                        ←
+                    </a>
+                    <a
+                        href="https://ring.seggs.lol/random"
+                        class="size-7 flex items-center justify-center rounded-lg border-2 border-border text-muted-foreground hover:text-foreground hover:bg-accent transition text-sm"
+                    >
+                        ⇆
+                    </a>
+                    <a
+                        href="https://ring.seggs.lol/redirect?from=farhan&dir=next"
+                        class="size-7 flex items-center justify-center rounded-lg border-2 border-border text-muted-foreground hover:text-foreground hover:bg-accent transition text-sm"
+                    >
+                        →
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="webring-mini" class="flex flex-wrap gap-2"></div>
+    </section>
+
+    <script is:inline define:vars={{ ringMembers }}>
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        const container = document.getElementById("webring-mini");
+        shuffle(ringMembers).forEach((m) => {
+            const isSelf = m.name === "farhan";
+            const a = document.createElement("a");
+            a.href = m.url;
+            a.target = "_blank";
+            a.rel = "noopener noreferrer";
+            a.title = m.name;
+            a.className = [
+                "flex items-center gap-1.5 px-2 py-1 rounded-lg border-2 hover:bg-accent transition group",
+                isSelf
+                    ? "border-violet-400 dark:border-violet-600"
+                    : "border-border",
+            ].join(" ");
+            a.innerHTML = `
+                <img src="https://github.com/${m.gh}.png?size=32" alt="${m.name}"
+                    class="size-4 rounded-full object-cover" loading="lazy" />
+                <span class="text-xs text-muted-foreground group-hover:text-foreground transition-colors">${m.name}</span>
+            `;
+            container.appendChild(a);
+        });
+    </script>
+
+    <hr class="border-border mb-10" />
+
     <p class="text-xs text-muted-foreground">
         <a
             href="https://farhan291.github.io/profile/"
