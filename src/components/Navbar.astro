@@ -28,9 +28,6 @@ import { Image } from "astro:assets";
             <a href="/projects" class="hover:text-primary transition-colors"
                 >Projects</a
             >
-            <a href="/about" class="hover:text-primary transition-colors"
-                >About</a
-            >
             <a href="/resume.pdf" class="hover:text-primary transition-colors"
                 >Resume</a
             >
@@ -47,7 +44,7 @@ import { Image } from "astro:assets";
                 <Sun className="h-4 w-4" />
             </button>
         </div>
-        
+
         <!-- Mobile: theme toggle (visible) + hamburger (for links) -->
         <div class="flex md:hidden items-center gap-2">
             <button
@@ -67,26 +64,44 @@ import { Image } from "astro:assets";
                 class="p-2 hover:bg-muted rounded-lg transition-colors"
                 aria-label="Toggle menu"
             >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
         </div>
     </div>
-    
+
     <!-- Mobile menu -->
-    <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-background px-6 py-4 space-y-3">
-        <a href="/blog" class="block hover:text-primary transition-colors">Blog</a>
-        <a href="/projects" class="block hover:text-primary transition-colors">Projects</a>
-        <a href="/about" class="block hover:text-primary transition-colors">About</a>
-        <a href="/resume.pdf" class="block hover:text-primary transition-colors">Resume</a>
+    <div
+        id="mobile-menu"
+        class="hidden md:hidden border-t border-border bg-background px-6 py-4 space-y-3"
+    >
+        <a href="/blog" class="block hover:text-primary transition-colors"
+            >Blog</a
+        >
+        <a href="/projects" class="block hover:text-primary transition-colors"
+            >Projects</a
+        >
+        <a href="/resume.pdf" class="block hover:text-primary transition-colors"
+            >Resume</a
+        >
     </div>
 </nav>
 
 <script>
-    const btn = document.getElementById('mobile-menu-btn');
-    const menu = document.getElementById('mobile-menu');
-    btn?.addEventListener('click', () => {
-        menu?.classList.toggle('hidden');
+    const btn = document.getElementById("mobile-menu-btn");
+    const menu = document.getElementById("mobile-menu");
+    btn?.addEventListener("click", () => {
+        menu?.classList.toggle("hidden");
     });
 </script>
