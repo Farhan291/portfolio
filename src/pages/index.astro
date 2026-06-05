@@ -9,6 +9,12 @@ const ringRes = await fetch(
 );
 const ringMembers = await ringRes.json();
 
+const extraFriends = [
+    { name: "sabique", gh: "Sabique-Islam", url: "https://www.sabique.page/" },
+];
+
+const allMembers = [...ringMembers, ...extraFriends];
+
 const posts = await getCollection("blog");
 const latestPosts = posts
     .sort((a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate))
@@ -417,7 +423,7 @@ const communities = [
         <div id="webring-mini" class="flex flex-wrap gap-2"></div>
     </section>
 
-    <script is:inline define:vars={{ ringMembers }}>
+    <script is:inline define:vars={{ allMembers }}>
         function shuffle(arr) {
             const a = [...arr];
             for (let i = a.length - 1; i > 0; i--) {
@@ -428,7 +434,7 @@ const communities = [
         }
 
         const container = document.getElementById("webring-mini");
-        shuffle(ringMembers).forEach((m) => {
+        shuffle(allMembers).forEach((m) => {
             const isSelf = m.name === "farhan";
             const a = document.createElement("a");
             a.href = m.url;
