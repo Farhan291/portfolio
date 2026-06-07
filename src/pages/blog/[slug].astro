@@ -26,6 +26,21 @@ interface Props {
 const { post, prevPost, nextPost } = Astro.props;
 const { Content, headings } = await render(post);
 
+// Series logic
+const allPostsForSeries = await getCollection("blog");
+let seriesPosts: CollectionEntry<"blog">[] = [];
+const match = post.id.match(/^(.+?)[_-]\d+(\.mdx?)?$/);
+if (match) {
+    const prefix = match[1];
+    seriesPosts = allPostsForSeries.filter((p) => {
+        const pMatch = p.id.match(/^(.+?)[_-]\d+(\.mdx?)?$/);
+        return pMatch && pMatch[1] === prefix;
+    }).sort((a, b) => a.id.localeCompare(b.id));
+}
+if (seriesPosts.length <= 1) {
+    seriesPosts = [];
+}
+
 const postSlug = post.id.replace(/\.mdx?$/, "");
 const postURL = new URL(`/blog/${postSlug}`, Astro.site).href;
 const postImage = post.data.cover
@@ -109,6 +124,23 @@ const jsonLd = {
                 </div>
             )}
             <div class="prose dark:prose-invert max-w-none pt-6">
+                {seriesPosts.length > 0 && (
+                    <>
+                        <p>{post.data.description} The table of contents:</p>
+                        <ol>
+                            {seriesPosts.map((p) => (
+                                <li>
+                                    {p.id === post.id ? (
+                                        <strong>{p.data.title}</strong>
+                                    ) : (
+                                        <a href={`/blog/${p.id.replace(/\.mdx?$/, "")}`}>{p.data.title}</a>
+                                    )}
+                                </li>
+                            ))}
+                        </ol>
+                        <hr />
+                    </>
+                )}
                 <Content />
             </div>
 
